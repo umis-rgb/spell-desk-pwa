@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#101a35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Spell Desk">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Spell Desk</title>
+    <link rel="icon" href="./assets/favicon-BNoicV3H.ico">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./assets/app-icon-180.png">
+    <script>
+      if (location.protocol === "file:" && location.pathname.endsWith("/index.html")) {
+        location.replace("./gift-build/Spell%20Desk.html");
+      }
+    </script>
+    <script type="module" crossorigin src="./assets/index-BX9wabui.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/paperRenderer-Dd0D2qyX.js">
+    <link rel="modulepreload" crossorigin href="./assets/templateNormalizer-DNqUxjE5.js">
+    <link rel="modulepreload" crossorigin href="./assets/symbolRecognizer-B8q3ilQB.js">
+    <link rel="modulepreload" crossorigin href="./assets/spellEffectRenderer-BEr-3Eyo.js">
+    <link rel="modulepreload" crossorigin href="./assets/glyphOverlayRenderer-CsSyWi4k.js">
+    <link rel="stylesheet" crossorigin href="./assets/paperRenderer-Dq1hb4TC.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="workspace">
+        <aside class="control-panel" aria-label="Spell controls">
+          <section class="control-section">
+            <div class="language-tabs" aria-label="Language">
+              <button type="button" class="language-tab-button active" data-language="en">EN</button>
+              <button type="button" class="language-tab-button" data-language="ja">日本語</button>
+            </div>
+          </section>
+
+          <section class="control-section">
+            <button type="button" id="toolToggleButton" class="tool-toggle-button" aria-label="Eraser" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="tool-icon tool-icon-erase">
+                <path d="m16.5 3.8 3.7 3.7a2 2 0 0 1 0 2.8l-8.9 8.9H6.8l-3.6-3.6a2 2 0 0 1 0-2.8L13.7 3.8a2 2 0 0 1 2.8 0Z"></path>
+                <path d="m11.8 7.1 5.1 5.1"></path>
+                <path d="M6.8 19.2H21"></path>
+              </svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="tool-icon tool-icon-draw">
+                <path d="M4 20 14.9 9.1"></path>
+                <path d="m13.1 4.9 6 6"></path>
+                <path d="m15.7 2.3 6 6-2.6 2.6-6-6Z"></path>
+                <path d="m4 20 4.8-1.2"></path>
+              </svg>
+              <span id="toolToggleLabel">Eraser</span>
+            </button>
+          </section>
+
+          <section class="control-section">
+            <button type="button" id="undoButton" data-i18n="action.undo">Undo</button>
+            <button type="button" id="clearButton" data-i18n="action.clear">Clear</button>
+          </section>
+
+          <section class="coach-card" aria-live="polite">
+            <span class="label" data-i18n="coach.label">Next gentle nudge</span>
+            <p id="coachMessage">Choose an outline, or draw an open circle to begin.</p>
+          </section>
+
+          <section class="wild-save-card" id="wildSaveCard" hidden>
+            <span class="label" data-i18n="wild.label">Wild spell discovered</span>
+            <p id="wildSaveHint" data-i18n="wild.hint">Save this closed-circle spell as a traceable guide.</p>
+            <label class="toggle compact-toggle">
+              <input type="checkbox" id="wildEffectToggle" checked>
+              <span data-i18n="wild.markEffect">Mark its effect</span>
+            </label>
+            <button type="button" id="saveWildSpellButton" data-i18n="wild.save">Save wild spell</button>
+          </section>
+        </aside>
+
+        <section class="canvas-panel" aria-label="Spell drawing surface">
+          <div class="canvas-shell">
+            <p class="canvas-hint" id="canvasHint" data-i18n="canvas.hint">
+              Trace the glowing guide, then seal the outer circle when it feels ready.
+            </p>
+            <label class="toggle canvas-guide-toggle">
+              <input type="checkbox" id="guidesToggle" checked>
+              <span data-i18n="guides.visible">Guides visible</span>
+            </label>
+            <section class="spell-score-popover" id="spellScorePopover" aria-live="polite">
+              <h2 class="panel-section-title" data-i18n="state.title">Spell State</h2>
+              <div class="spell-state-status" id="statusValue">Loading</div>
+              <section class="summary-band">
+                <div>
+                  <span class="label" data-i18n="state.element">Element</span>
+                  <strong id="elementValue">None</strong>
+                </div>
+              </section>
+              <section class="meter-list">
+                <div class="meter-row">
+                  <span data-i18n="meter.quality">Quality</span>
+                  <div class="meter"><span id="qualityMeter"></span></div>
+                  <span class="diagnostic-meter-value" id="qualityMeterValue">0%</span>
+                </div>
+                <div class="meter-row">
+                  <span data-i18n="meter.stability">Stability</span>
+                  <div class="meter"><span id="stabilityMeter"></span></div>
+                  <span class="diagnostic-meter-value" id="stabilityMeterValue">0%</span>
+                </div>
+                <div class="meter-row">
+                  <span data-i18n="meter.force">Force</span>
+                  <div class="meter"><span id="forceMeter"></span></div>
+                  <span class="diagnostic-meter-value" id="forceMeterValue">0%</span>
+                </div>
+              </section>
+            </section>
+            <canvas id="glyphCanvas" width="1200" height="800"></canvas>
+            <canvas id="effectCanvas" width="1200" height="800"></canvas>
+          </div>
+        </section>
+
+        <aside class="dictionary-panel" aria-label="Guide library">
+          <section id="dictionaryRootPanel">
+            <section class="reference-panel" aria-label="Dictionary reference">
+              <div id="sampleSpellReferencePanel" class="reference-list">
+                <p class="panel-description" data-i18n="description.spells">
+                  Pick a complete spell to trace as a faint guide.
+                </p>
+                <div id="sampleSpellReferenceCards"></div>
+              </div>
+            </section>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="app-footer">
+        <p data-i18n="footer.notice">
+          Fan-made companion. Not official, not a replacement for official releases. Witch Hat Atelier names, images,
+          likenesses, designs, symbols, and trademarks belong to their rights holders.
+        </p>
+      </footer>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Spell Desk icon">
+  <rect width="512" height="512" rx="108" fill="#101a35"/>
+  <circle cx="256" cy="256" r="176" fill="#edf8ff" stroke="#9ebee6" stroke-width="18"/>
+  <circle cx="256" cy="256" r="122" fill="none" stroke="#2c91b2" stroke-width="16" stroke-linecap="round" stroke-dasharray="640 88"/>
+  <path d="M256 150c30 45 64 84 64 128 0 39-27 72-64 72s-64-33-64-72c0-44 34-83 64-128z" fill="none" stroke="#e45f7c" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M170 256h56M286 256h56M256 170v56M256 286v56" stroke="#6e63dc" stroke-width="18" stroke-linecap="round"/>
+</svg>
